@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -18,6 +19,8 @@
       }
     ],
     "paths": {
+      "@components/*": ["./src/app/[lang]/components/*"],
+      "@constants/*": ["./constants/*"],
       "@/*": ["./src/*"]
     }
   },
