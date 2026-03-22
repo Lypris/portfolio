@@ -1,47 +1,41 @@
-import { match as matchLocale } from "@formatjs/intl-localematcher";
-import Negotiator from "negotiator";
-
-let headers = { "accept-language": "en-US, en, q=0.5" };
-let languages = new Negotiator({ headers }).languages();
-
 import { defaultLocale } from "@/constants/locales";
 import { i18n } from "i18n-config";
 import { NextRequest, NextResponse } from "next/server";
-import path from "path";
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  if (
-    pathname.startsWith(`/${defaultLocale}/`) ||
-    pathname === `/${defaultLocale}/`
-  ) {
-    return NextResponse.redirect(
+
+  // Handle the root case (localhost:3000)
+  if (pathname === "/") {
+    return NextResponse.rewrite(
       new URL(
-        pathname.replace(
-          `/${defaultLocale}`,
-          pathname === `/${defaultLocale}` ? "/" : ""
-        ),
+        `/${defaultLocale}`, // Rewrite root to default locale
         request.url
       )
     );
   }
 
+  // Check if the pathname is missing a locale and rewrite
   const pathnameIsMissingLocale = i18n.locales.every(
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
-  );  
-  
-  if ( pathnameIsMissingLocale ) {
+  );
+
+  if (pathnameIsMissingLocale) {
+    // Keep existing path and add locale prefix for App Router [lang] segment.
     return NextResponse.rewrite(
       new URL(
-        `${defaultLocale}${pathname}${request.nextUrl.search}`,
-        request.nextUrl.href
+        `/${defaultLocale}${pathname}${request.nextUrl.search}`,
+        request.url
       )
     );
   }
+
+  return NextResponse.next();
 }
 
 export const config = {
   matcher: [
-    "/((?!_next).*)",
-  ]
+    // Skip internal Next.js paths (_next)
+    "/((?!_next|api|favicon.ico|.*\\..*).*)",
+  ],
 };

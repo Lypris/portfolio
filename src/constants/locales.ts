@@ -1,3 +1,3 @@
-const locales = [{ locale: "en", name: "English" }, { locale: "fr", name: "Français" }, { locale: "de", name: "Deutsch" }];
+const locales = [{ locale: "en" }, { locale: "fr" }, { locale: "de" }];
 const defaultLocale = "en";
 export { defaultLocale, locales };

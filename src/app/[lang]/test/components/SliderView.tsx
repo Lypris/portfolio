@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import "../style.css";
 import ArticlePreview from './ArticlePreview';
 
-const useVerticalScrollHandler = (containerRef: React.RefObject<HTMLElement>, numberOfSections: number) => {
+const useVerticalScrollHandler = (containerRef: React.RefObject<HTMLElement | null>, numberOfSections: number) => {
     const [activeSection, setActiveSection] = useState(0);
 
     useEffect(() => {

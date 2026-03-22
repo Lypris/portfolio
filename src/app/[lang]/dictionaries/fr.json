@@ -1,5 +1,14 @@
 {
     "server-component": {
         "welcome": "Bienvenue"
-    }
+    },
+    "footer": {
+    "allRights": "Tous droits réservés (pas vraiment)"
+  },
+  "header": {
+    "home": "Accueil",
+    "projects": "Projets",
+    "cv": "CV",
+    "contact": "Contacter"
+  }
 }

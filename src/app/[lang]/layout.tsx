@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { ThemeProvider } from "./theme-providers";
 import MainLayout from "@components/main-layout";
 import { getDictionary } from "./dictionaries";
 
@@ -21,26 +20,23 @@ export const metadata: Metadata = {
   description: "Portfolio de Rudy Virquin",
 };
 
-export async function getStaticParams() {
-  return {
-    lang: ["en", "fr", "de"],
-  };
+export async function generateStaticParams() {
+  return [ {lang: "en"}, {lang: "fr"}, {lang: "de"} ];
 }
 
 type Props = {
   children: React.ReactNode;
-  params: { lang: string };
+  params: Promise<{ lang: string }>;
 };
 
-export default async function RootLayout({ children, params: { lang } }: Readonly<Props>) {
-    
-  console.log("layout lang", lang)
+export default async function RootLayout({ children, params }: Readonly<Props>) {
+  const { lang } = await params;
 
-  const dict = await getDictionary(lang);
+  const dict = await getDictionary(lang || 'fr');
 
   return (
-    <html className="h-full" lang={lang}>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+    <html className="h-full" lang={lang || 'fr'}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`}>
         <MainLayout lang={lang} dict={dict}>
           {children}
         </MainLayout>
