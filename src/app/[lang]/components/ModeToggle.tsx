@@ -1,17 +1,40 @@
 "use client"
 
 import * as React from "react"
-import { useTheme } from "next-themes"
+import { useTheme } from "../theme-providers"
 
 export function ModeToggle() {
-  const { theme, setTheme } = useTheme()
-  const isDarkMode = theme === "dark"
+  const { resolvedTheme, setTheme } = useTheme()
+  const isDarkMode = resolvedTheme === "dark"
   const [mounted, setMounted] = React.useState(false);
+  const timeoutRef = React.useRef<number | undefined>(undefined);
 
   // S'assurer que le composant est monté du côté client
   React.useEffect(() => {
     setMounted(true);
+
+    return () => {
+      if (timeoutRef.current) {
+        window.clearTimeout(timeoutRef.current);
+      }
+      document.documentElement.classList.remove("theme-switching");
+    };
   }, []);
+
+  const toggleTheme = () => {
+    const root = document.documentElement;
+    root.classList.add("theme-switching");
+
+    if (timeoutRef.current) {
+      window.clearTimeout(timeoutRef.current);
+    }
+
+    setTheme(isDarkMode ? "light" : "dark");
+
+    timeoutRef.current = window.setTimeout(() => {
+      root.classList.remove("theme-switching");
+    }, 260);
+  };
 
   if (!mounted) {
     return null; // Éviter de rendre quoi que ce soit jusqu'à ce que le composant soit monté
@@ -19,8 +42,8 @@ export function ModeToggle() {
   
   return (
     <button
-      onClick={() => setTheme(isDarkMode ? "light" : "dark")}
-      className="p-2 rounded-full bg-background focus:outline-none"
+      onClick={toggleTheme}
+      className="p-2 rounded-full bg-background focus:outline-none cursor-pointer"
       aria-label="Toggle theme"
     >
       {isDarkMode ? (

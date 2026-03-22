@@ -1,26 +1,37 @@
+import { defaultLocale, supportedLocales, type Locale } from "@/constants/locales";
+import { getAllProjects } from "@/content/projects/loader";
 
-import React from 'react';
+import ArticleComponent from "./components/ArticleComponent";
 
-import ArticleComponent from './components/ArticleComponent';
-
-export default function ProjectsPage() {
-    return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-            <ArticleComponent
-                title="My Article 1"
-                content="This is the content of my first article. It is a very interesting article. You should read it. It is very interesting. You will learn a lot from it." 
-                image="https://images.unsplash.com/photo-1647427060118-4911c9821b82?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            />
-            <ArticleComponent
-                title="My Article 2"
-                content="This is the content of my second article. It is a very interesting article. You should read it. It is very interesting. You will learn a lot from it." 
-                image="https://images.unsplash.com/photo-1647427060118-4911c9821b82?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            />
-            <ArticleComponent
-                title="My Article 3"
-                content="This is the content of my third article. It is a very interesting article. You should read it. It is very interesting. You will learn a lot from it." 
-                image="https://images.unsplash.com/photo-1647427060118-4911c9821b82?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            />
-        </div>
-    );
+type Props = {
+    params: Promise<{ lang: string }>;
 };
+
+function toLocale(value: string): Locale {
+    return supportedLocales.includes(value as Locale) ? (value as Locale) : defaultLocale;
+}
+
+export const dynamic = "force-static";
+
+export default async function ProjectsPage({ params }: Props) {
+    const { lang } = await params;
+    const locale = toLocale(lang);
+    const projects = await getAllProjects(locale);
+
+    return (
+        <main className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-8">
+            <div className="mb-8 space-y-2">
+                <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">Projects</h1>
+                <p className="max-w-3xl text-[color:var(--muted-foreground)]">
+                    Each project card is generated from local MDX frontmatter with locale fallback.
+                </p>
+            </div>
+
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+                {projects.map((project) => (
+                    <ArticleComponent key={`${project.slug}-${project.resolvedLocale}`} lang={lang} project={project} />
+                ))}
+            </div>
+        </main>
+    );
+}

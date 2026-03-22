@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import MainLayout from "@components/main-layout";
 import { getDictionary } from "./dictionaries";
+import { ThemeProvider } from "./theme-providers";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,11 +36,13 @@ export default async function RootLayout({ children, params }: Readonly<Props>) 
   const dict = await getDictionary(lang || 'fr');
 
   return (
-    <html className="h-full" lang={lang || 'fr'}>
+    <html className="h-full" lang={lang || 'fr'} suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`}>
-        <MainLayout lang={lang} dict={dict}>
-          {children}
-        </MainLayout>
+        <ThemeProvider>
+          <MainLayout lang={lang} dict={dict}>
+            {children}
+          </MainLayout>
+        </ThemeProvider>
       </body>
     </html>
   );

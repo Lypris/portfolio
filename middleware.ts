@@ -1,5 +1,5 @@
 import { defaultLocale } from "@/constants/locales";
-import { i18n } from "i18n-config";
+import { i18n } from "./i18n-config";
 import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(request: NextRequest) {

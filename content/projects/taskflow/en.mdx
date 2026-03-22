@@ -1,0 +1,51 @@
+---
+title: "TaskFlow: Team planning platform"
+summary: "A multilingual project that combines a Kanban board, calendar view, and AI-assisted release planning for product teams."
+date: "2026-02-14"
+coverImage: "/projects/taskflow/hero.svg"
+coverImageAlt: "TaskFlow dashboard preview"
+tags:
+  - nextjs
+  - mdx
+  - internationalization
+featured: true
+published: true
+order: 1
+repoUrl: "https://github.com/example/taskflow"
+demoUrl: "https://taskflow-demo.example.com"
+---
+
+import Callout from "@/components/mdx/Callout";
+import ArchitectureDiagram from "@/components/mdx/ArchitectureDiagram";
+
+## Context
+
+TaskFlow was built for distributed product teams that needed one place for planning, sprint execution, and release reporting.
+
+![TaskFlow hero](/projects/taskflow/hero.svg)
+
+<Callout variant="info" title="Outcome">
+  Planning lead-time was reduced by **31%** after launch.
+</Callout>
+
+## Architecture snapshot
+
+<ArchitectureDiagram title="TaskFlow content and UI layers" />
+
+## Data model sample
+
+```ts
+export type Sprint = {
+  id: string;
+  name: string;
+  startsAt: string;
+  endsAt: string;
+  ticketIds: string[];
+};
+```
+
+## Lessons learned
+
+1. Locale-first routing simplifies SEO and analytics segmentation.
+2. A folder-per-project MDX model keeps contributions easy for non-core developers.
+3. Build-time validation catches broken content before deployment.

@@ -1,16 +1,24 @@
 
 import Link from 'next/link';
 import { ModeToggle } from './ModeToggle';
+import LocaleSwitcher from './locale-switcher';
 
 export default function Header({ dict, lang }: { dict: any, lang: string }) {
     return (
-        <nav className="flex space-x-6 uppercase">
-            <Link href={`/${lang}`} className="md:p-4 text-foreground hover:text-primary">{dict.header.home}</Link>
-            <Link href={`/${lang}/projects`} className="md:p-4 text-foreground hover:text-primary">{dict.header.projects}</Link>
-            <Link href={`/${lang}/cv`} className="md:p-4 text-foreground hover:text-primary">{dict.header.cv}</Link>
-            <a href="mailto:rudy.virquin@gmail.com" className="md:p-4 text-foreground hover:text-primary">{dict.header.contact}</a>
-            <ModeToggle />
-        </nav>
+        <header className="w-full px-4 pt-4 sm:px-8">
+            <nav className="mx-auto flex w-full max-w-6xl items-center justify-between rounded-xl border border-[color:var(--border)] bg-card/80 px-3 py-2 uppercase backdrop-blur-sm sm:px-4">
+                <div className="flex items-center gap-2 sm:gap-4">
+                    <Link href={`/${lang}`} className="px-2 py-2 text-foreground hover:text-primary">{dict.header.home}</Link>
+                    <Link href={`/${lang}/projects`} className="px-2 py-2 text-foreground hover:text-primary">{dict.header.projects}</Link>
+                    <Link href={`/${lang}/cv`} className="px-2 py-2 text-foreground hover:text-primary">{dict.header.cv}</Link>
+                    <a href="mailto:rudy.virquin@gmail.com" className="px-2 py-2 text-foreground hover:text-primary">{dict.header.contact}</a>
+                </div>
+                <div className="flex items-center gap-2">
+                    <LocaleSwitcher />
+                    <ModeToggle />
+                </div>
+            </nav>
+        </header>
     );
 } 
 

@@ -1,5 +1,4 @@
 import { getDictionary } from "./dictionaries";
-import LocaleSwitcher from "./components/locale-switcher";
 
 type Props = {
   params: Promise<{ lang: string }>;
@@ -11,19 +10,24 @@ export default async function Home({ params }: Props) {
   const dict = await getDictionary(lang);
 
   return (
-    <div className="flex items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex-grow flex items-center justify-center">
-        <div className="text-center">
-            <h1 className="text-4xl md:text-8xl font-bold leading-none">Rudy VIRQUIN</h1>
-            <p className="text-lg mt-4 uppercase">Student Engineer<br/>5. Semester<br/>INSA Strasbourg</p>
+    <div className="min-h-screen px-4 py-8 sm:px-8 sm:py-12 font-[family-name:var(--font-geist-sans)]">
+      <main className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-10 rounded-2xl border border-[color:var(--border)] bg-card/40 p-6 sm:p-10 lg:flex-row lg:items-start">
+        <div className="text-center lg:text-left">
+            <h1 className="text-4xl md:text-8xl font-bold leading-none">{dict.home.name}</h1>
+            <p className="text-lg mt-4 uppercase">
+              {dict.home.role}
+              <br />
+              {dict.home.semester}
+              <br />
+              {dict.home.school}
+            </p>
         </div>
 
-        <div>
-          <LocaleSwitcher />
-          <div>
-            <p>Current locale: {lang}</p>
+        <div className="w-full max-w-xs rounded-xl border border-[color:var(--border)] bg-card/70 p-4 lg:mt-2">
+          <div className="space-y-1 text-sm text-[color:var(--muted-foreground)]">
+            <p>{dict.home.currentLocaleLabel}: {lang}</p>
             <p>
-              This text is rendered on the server:{" "}
+              {dict.home.serverRenderedLabel}{" "}
               {dict["server-component"].welcome}
             </p>
           </div>

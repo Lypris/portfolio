@@ -1,8 +1,24 @@
 {
-    "server-component": {
-        "welcome": "Welcome"
-    },
-    "footer": {
+  "server-component": {
+    "welcome": "Welcome"
+  },
+  "home": {
+    "name": "Rudy VIRQUIN",
+    "role": "Student Engineer",
+    "semester": "5th Semester",
+    "school": "INSA Strasbourg",
+    "currentLocaleLabel": "Current locale",
+    "serverRenderedLabel": "This text is rendered on the server:"
+  },
+  "localeSwitcher": {
+    "label": "Language",
+    "localeNames": {
+      "en": "English",
+      "fr": "French",
+      "de": "German"
+    }
+  },
+  "footer": {
     "allRights": "All rights reserved (not really)"
   },
   "header": {
